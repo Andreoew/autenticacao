@@ -1,0 +1,82 @@
+<%- include("top.ejs") %>
+<p>Welcome to <%= title %></p>
+<div class="alert alert-info">
+  <%= qtd %> usuários cadastrados!
+</div>
+<table class="table table-bordered table-striped table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th>Nome</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% 
+    if(docs) {
+      for(var i=0; i < docs.length; i++){
+        %>
+        <tr>
+          <td><%= docs[i].name %></td>
+          <td><%= docs[i].username %></td>
+          <td><%= docs[i].email %></td>
+          <td>
+          <div class="row">
+            <div class="col">
+              
+              <form action="/users/edit/<%= docs[i]._id %>" method="POST">
+                <input type="hidden" name="id" value="<%= docs[i]._id %>" />
+                <input type="submit" value="Editar" class="btn  btn-warning form-control" />                
+              </form> 
+                
+            </div>
+            <div class="col">
+              
+              <form action="/users/delete/<%= docs[i]._id %>" method="POST">
+                <input type="hidden" name="id" value="<%= docs[i]._id %>" />
+                <input type="submit" value="X" class="btn btn-danger form-control" />                
+              </form>
+            
+            </div>              
+          </div> 
+        </td>         
+        </tr>
+        <%
+      }
+    }
+  %>
+  </tbody>
+</table>
+<nav>
+    <ul class="pagination justify-content-center">
+      <!-- <a class="page-link">Previous</a> -->
+      <%
+      for(var i=1; i <= qtdPaginas; i++){
+        %>
+        <li class="page-item"><a class="page-link" href="/index/<%= i %>">
+          <%= i %>
+        </a></li> 
+        <%
+      }
+      %>
+      <!-- <a class="page-link" href="/index/<%= i %>">Next</a> -->
+  </ul>
+</nav>
+<form action="/login" method="POST">
+  <div class="row">
+    <div class="col-sm-2">
+        <a href="/users/signup" class="btn btn-primary">Cadastrar</a>
+    </div>
+    <div class="col-sm-2">
+      <input type="submit" value="Logoff" class="btn btn-light form-control" />
+    </div>
+    <% if(profile === '2'){ %>
+    <div class="col-sm-2">
+      <a href="/reports" class="btn btn-light">Relatórios</a>
+    </div>
+    <% } %>
+
+  </div>
+</form>
+  <%- include("bottom.ejs") %>
